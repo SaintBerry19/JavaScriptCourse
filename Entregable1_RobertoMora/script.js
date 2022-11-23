@@ -42,7 +42,7 @@ function bisiesto(){
                 alert("Introduzca si o no")
              }
               }}
-        catch (error) {console.log(error)}
+        catch (error) {alert(error)}
         }
 }
 bisiesto()
