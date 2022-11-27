@@ -14,13 +14,7 @@ function bisiesto(){
         try{ 
             let fecha = Number(prompt("Ingrese un año para consultar si es bisiesto o no: "))
             let year= (fecha)
-            if (year%4===0 && year%100!==0){
-                alert(`El año ${year} es bisiesto`)
-            }    
-            else if(year%4===0 && year%100===0 && year%400!==0){
-                alert(`El año ${year} no es bisiesto`)
-            }   
-            else if(year%4===0 && year%100===0 && year%400===0){
+            if ((year%4===0 && year%100!==0)||(year%400===0)){
                 alert(`El año ${year} es bisiesto`)
             }    
             else{
@@ -46,3 +40,4 @@ function bisiesto(){
         }
 }
 bisiesto()
+
