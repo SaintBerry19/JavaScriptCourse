@@ -1,6 +1,4 @@
-let balance = Number(
-  prompt("Ingrese la cantidad de dinero que hay en su cuenta: ")
-);
+let balance=0
 let productos = [
   {
     id: 2,
@@ -79,6 +77,7 @@ function renderizarProductos(arrayDeProductos) {
     contenedor.appendChild(tarjetaProducto);
   }
 }
+
 function agregarAlCarrito(id) {
   let cantidad = document.getElementById(`quantity${id}`).valueAsNumber;
   let productoBuscado = productos.find((producto) => producto.id == id);
@@ -101,6 +100,13 @@ function agregarAlCarrito(id) {
     });
   }
   renderizarCarrito(carrito);
+}
+
+function agregarCredito() { 
+  let userInput =  document.getElementById("credito").valueAsNumber;
+  balance=balance+userInput
+  let cuenta = document.getElementById("balance");
+  cuenta.innerHTML = `Cuentas con el siguiente dinero disponible: $${balance} USD`;
 }
 function renderizarCarrito(arrayDeProductos) {
   contenedorCarrito.innerHTML = "";
@@ -127,6 +133,7 @@ function renderizarCarrito(arrayDeProductos) {
     <button class="boton" id="total" onclick="pagar(${total})">Pagar</button>
   `;
 }
+
   function pagar(total){
     if(total>balance){
       alert("No tienes dinero suficiente")

@@ -11,9 +11,18 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <title>BitChange</title>
   </head>
-  <body>
-    <h1 style="text-align: center" id="titulo">BitChange</h1>
-    <h3 style="text-align: center">Criptomonedas disponibles</h3>
+  <body>    
+    <h1 style="text-align: center" id="titulo">BitChange</h1>  
+    <div style="width: 60vh; display: block; margin: auto">
+    <input
+    id="credito"
+    type="number"
+    placeholder="Insertar credito"
+  />
+  <button id="sendcredito" onclick="agregarCredito()">Agregar a Cartera</button>    
+  </div>
+  <h3 style="text-align: center">Criptomonedas disponibles</h3>
+  <p></p>
     <p></p>
     <input
       id="buscador"
