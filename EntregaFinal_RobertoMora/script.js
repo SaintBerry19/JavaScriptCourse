@@ -99,11 +99,12 @@ function agregarAlCarrito(id) {
       subtotal: productoBuscado.precio * cantidad,
     });
   }
+  localStorage.setItem("carrito", JSON.stringify(carrito))
   Toastify({
     text: "Producto agregado al carrito",
     duration: 3000,
     gravity: "bottom", // `top` or `bottom`
-    position: "right", // `left`, `center` or `right`
+    position: "right" // `left`, `center` or `right`,
   }).showToast();
   renderizarCarrito(carrito);
 }
@@ -116,7 +117,7 @@ function agregarCredito() {
     text: "Se agregaron fondos a la cuenta",
     duration: 3000,
     gravity: "top", // `top` or `bottom`
-    position: "right", // `left`, `center` or `right`
+    position: "right" // `left`, `center` or `right`,
   }).showToast();
   cuenta.innerHTML = `Cuentas con el siguiente dinero disponible: $${balance} USD`;
 }
@@ -158,18 +159,18 @@ function pagar(total) {
   } else {
     balance = balance - total;
     contenedorCarrito.innerHTML = ``;
-    carrito = [];
+    localStorage.removeItem("carrito")
+    carrito = []
     let contenedorTotal = document.getElementById("totalh3");
     contenedorTotal.innerText = `Total a Pagar: 0`;
     let cuenta = document.getElementById("balance");
     cuenta.innerHTML = `Cuentas con el siguiente dinero disponible: $${balance} USD`;
     alertPersonalizado("Gracias por su compra", "success", 5500).then((result)=>{
-      console.log(result);
       result?(Toastify({
         text: "El carrito se encuentra vacío",
         duration: 3000,
         gravity: "bottom", // `top` or `bottom`
-        position: "right", // `left`, `center` or `right`
+        position: "right", // `left`, `center` or `right`,
       }).showToast())
       :alertPersonalizado("Hubo un error", "error", 5500)
     })
@@ -181,7 +182,7 @@ async function alertPersonalizado(texto, icono, tiempo) {
     text: texto,
     icon: icono,
     showConfirmButton: true,
-    background: '#00008B',
+    background: '#212F3D',
     color: 'white',
     timer: tiempo
   })
