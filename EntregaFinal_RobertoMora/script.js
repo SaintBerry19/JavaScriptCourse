@@ -1,16 +1,16 @@
 async function getProductos() {
-  const response = await fetch('productos.json')
-  const data = await response.json()
-  return data
+  const response = await fetch("productos.json");
+  const data = await response.json();
+  return data;
 }
 
 getProductos().then((productos) => {
   let contenedor = document.getElementById("contenedorProductos");
   renderizarProductos(productos);
-  
+
   let buscador = document.getElementById("buscador");
   buscador.addEventListener("input", renderizarProductosFiltrados);
-  
+
   function renderizarProductosFiltrados(e) {
     let productosFiltrados = productos.filter(
       (producto) =>
@@ -21,29 +21,36 @@ getProductos().then((productos) => {
     );
     renderizarProductos(productosFiltrados);
   }
-  
+
   function renderizarProductos(arrayDeProductos) {
     contenedor.innerHTML = "";
     for (const producto of arrayDeProductos) {
       let tarjetaProducto = document.createElement("div");
       tarjetaProducto.className = "producto";
       tarjetaProducto.id = producto.id;
-  
+
       tarjetaProducto.innerHTML = `
         <div style="text-align:center;border:2px solid white;padding: 1vh;">
         <h3>${producto.nombre}</h3>
-        <p>Precio: $${producto.precio}</p>
+        <p>Precio: $${
+          Math.round((producto.precio + Number.EPSILON) * 100) / 100
+        }</p>
         <p>Divisa: ${producto.exchange_rate}</p>
-        <img style="padding: 1vh;width: 200px; height: 200px;" src=${producto.imgUrl}>
-        <input class="quantity" id="quantity${producto.id}" min="-100" name="quantity" type="number" value=1>
-        <button class="boton" id=${producto.id} onclick="agregarAlCarrito(${producto.id})">Agregar a la cartera</button>
+        <img style="padding: 1vh;width: 200px; height: 200px;" src=${
+          producto.imgUrl
+        }>
+        <input class="quantity" id="quantity${
+          producto.id
+        }" min="-100" name="quantity" type="number" value=1>
+        <button class="boton" id=${producto.id} onclick="agregarAlCarrito(${
+        producto.id
+      })">Agregar a la cartera</button>
         </div>
       `;
       contenedor.appendChild(tarjetaProducto);
     }
   }
-
-})
+});
 
 let balance = 0;
 let carrito = [];
@@ -53,7 +60,7 @@ cuenta.innerHTML = `Cuentas con el siguiente dinero disponible: $${balance} USD`
 
 async function agregarAlCarrito(id) {
   let cantidad = document.getElementById(`quantity${id}`).valueAsNumber;
-  let productos= await getProductos()
+  let productos = await getProductos();
   let productoBuscado = productos.find((producto) => producto.id == id);
   let posicionDelProductoBuscado = carrito.findIndex(
     (producto) => producto.id == productoBuscado.id
@@ -62,15 +69,21 @@ async function agregarAlCarrito(id) {
     carrito[posicionDelProductoBuscado].unidades =
       carrito[posicionDelProductoBuscado].unidades + cantidad;
     carrito[posicionDelProductoBuscado].subtotal =
-      carrito[posicionDelProductoBuscado].unidades *
-      carrito[posicionDelProductoBuscado].precioUnitario;
+      Math.round(
+        (carrito[posicionDelProductoBuscado].unidades *
+          carrito[posicionDelProductoBuscado].precioUnitario +
+          Number.EPSILON) *
+          100
+      ) / 100;
   } else {
     carrito.push({
       id: productoBuscado.id,
       nombre: productoBuscado.nombre,
       precioUnitario: productoBuscado.precio,
       unidades: cantidad,
-      subtotal: productoBuscado.precio * cantidad,
+      subtotal:
+        Math.round((productoBuscado.precio * cantidad + Number.EPSILON) * 100) /
+        100,
     });
   }
   localStorage.setItem("carrito", JSON.stringify(carrito));
@@ -84,8 +97,11 @@ async function agregarAlCarrito(id) {
 }
 
 function agregarCredito() {
-  let userInput = document.getElementById("credito").valueAsNumber;
-  balance = balance + userInput;
+  let userInput =
+    Math.round(
+      (document.getElementById("credito").valueAsNumber + Number.EPSILON) * 100
+    ) / 100;
+  balance = Math.round((balance + userInput + Number.EPSILON) * 100) / 100;
   let cuenta = document.getElementById("balance");
   Toastify({
     text: "Se agregaron fondos a la cuenta",
@@ -131,7 +147,7 @@ function pagar(total) {
       position: "right", // `left`, `center` or `right`
     }).showToast();
   } else {
-    balance = balance - total;
+    balance = Math.round((balance - total + Number.EPSILON) * 100) / 100;
     contenedorCarrito.innerHTML = ``;
     localStorage.removeItem("carrito");
     carrito = [];

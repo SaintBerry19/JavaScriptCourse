@@ -3,7 +3,7 @@
     "id": 2,
     "categorias": ["classic", "safe"],
     "nombre": "BITCOIN",
-    "precio": 16806.4,
+    "precio": 16806.41,
     "exchange_rate": "USD",
     "imgUrl": "https://static.vecteezy.com/system/resources/previews/008/505/801/original/bitcoin-logo-color-illustration-png.png"
   },
@@ -19,7 +19,7 @@
     "id": 8,
     "categorias": ["new", "troll"],
     "nombre": "DOGECOIN",
-    "precio": 0.073,
+    "precio": 0.075,
     "exchange_rate": "USD",
     "imgUrl": "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png"
   },
